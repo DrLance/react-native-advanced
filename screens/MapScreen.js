@@ -10,7 +10,7 @@ class MapScreen extends Component {
         <Text>SSSS</Text>
         <Text>SSSS</Text>
         <Text>SSSS</Text>
-        <Text>SSSS</Text>
+        <Text>SSSS1</Text>
         <Text>SSSS</Text>
         <Text>SSSS</Text>
         <Text>SSSS</Text>

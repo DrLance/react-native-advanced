@@ -1,9 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Notifications } from "expo";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import { Card, Button } from "react-native-elements";
 import { TabNavigator, StackNavigator } from "react-navigation";
 import { Provider } from "react-redux";
 
+import registerForNotification from "./services/push_notifications";
 import store from "./store";
 import AuthScreen from "./screens/AuthScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -14,6 +16,15 @@ import ReviewScreen from "./screens/ReviewScreen";
 import Deck from "./src/Deck";
 
 export default class App extends React.Component {
+  componentDidMount() {
+    registerForNotification();
+    Notifications.addListener(notification => {
+      const { data: { text }, origin } = notification;
+      if (origin === "received" && text) {
+        Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
+      }
+    });
+  }
   renderCard(item) {
     return (
       <Card key={item.id} title={item.text} image={{ uri: item.uri }}>
@@ -54,7 +65,16 @@ export default class App extends React.Component {
                 })
               }
             },
-            { tabBarPosition: "bottom", lazy: true }
+            {
+              tabBarPosition: "bottom",
+              swipeEnabled: false,
+              lazy: true,
+              tabBarOptions: {
+                labelStyle: {
+                  fontSize: 12
+                }
+              }
+            }
           )
         }
       },
